@@ -5,6 +5,10 @@ Package.describe({
   git: "https://github.com/yogiben/meteor-admin"
 });
 
+Npm.depends({
+  'simpl-schema': '0.3.2'
+});
+
 Package.on_use(function(api){
 
   both = ['client','server']
@@ -13,12 +17,11 @@ Package.on_use(function(api){
 
   api.use(
     ['iron:router@1.0.9',
-    'coffeescript',
     'underscore',
     'reactive-var',
     'check',
-    'aldeed:collection2@2.5.0',
-    'aldeed:autoform@5.5.1',
+    'aldeed:collection2-core@2.0.0',
+    'aldeed:autoform',
     'aldeed:template-extension@4.0.0',
     'alanning:roles@1.2.13',
     'raix:handlebar-helpers@0.2.5',
@@ -27,7 +30,8 @@ Package.on_use(function(api){
     'aldeed:tabular@1.4.0',
     'meteorhacks:unblock@1.1.0',
     'zimme:active-route@2.3.2',
-    'mfactory:admin-lte@0.0.2'
+    'mfactory:admin-lte@0.0.2',
+    'ecmascript'
     ],
     both);
 
