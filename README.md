@@ -1,8 +1,6 @@
 Meteor Admin
 ============
-`$ meteor add yogiben:admin`
-
-To get a working example, clone and run my [Meteor starter](https://github.com/yogiben/meteor-starter) repo and then go to `/admin`.
+`$ meteor add ignacy130:yadmin`
 
 A complete admin dashboard solution for meteor built off the [iron-router](https://github.com/iron-meteor/iron-router),  [roles](https://github.com/alanning/meteor-roles/) and [autoform](https://github.com/aldeed/meteor-autoform) packages and frontend from the open source admin dashboard template, [Admin LTE](https://github.com/almasaeed2010/AdminLTE).
 
@@ -12,15 +10,11 @@ A complete admin dashboard solution for meteor built off the [iron-router](https
 
 ![alt tag](https://raw.githubusercontent.com/yogiben/meteor-admin/master/readme/screenshot2.png)
 
-Maintained by [Meteor Factory](http://meteorfactory.io). Professional Meteor development.
-
-[![Meteor admin](https://raw.githubusercontent.com/yogiben/meteor-admin/master/readme/meteor-factory.jpg)](http://meteorfactory.io)
-
 ### Getting started ###
 
 #### 0. Prerequisites####
 This package is designed to work with certain types of projects. Your project should be using and have configured
-* Iron Router - `meteor add  iron:router`
+* Iron Router - `meteor add  iron:router`. Flow Router in progress...
 * Collection Helpers - `meteor add dburles:collection-helpers`
 * Collection2 - `meteor add aldeed:collection2`
 * An accounts system - e.g. `meteor add accounts-base accounts-password`
@@ -29,7 +23,7 @@ This package is designed to work with certain types of projects. Your project sh
 * Fontawesome - e.g. `meteor add fortawesome:fontawesome`
 
 #### 1. Install ####
-Download to your packages directory and run `meteor add yogiben:admin` then go to `/admin` for the setup wizzard.
+Download to your packages directory and run `meteor add ignacy130:yadmin`.
 
 #### 2. Config ####
 The simplest possible config with one, 'Posts', collection.
@@ -58,104 +52,133 @@ AdminConfig = {
 If you are unfamiliar with [autoform](https://github.com/aldeed/meteor-autoform) or [collection2](https://github.com/aldeed/meteor-collection2) or [collection-helpers](https://github.com/dburles/meteor-collection-helpers) you should check them out now.
 
 You need to define and attach a schema to the collections that you want to edit via the admin dashboard. Check out the [documentation](https://github.com/aldeed/meteor-collection2).
-```
-@Schemas = {}
+```javascript
+this.Schemas = {};
 
-@Posts = new Meteor.Collection('posts');
+this.Posts = new Meteor.Collection('posts');
 
-Schemas.Posts = new SimpleSchema
-	title:
-		type: String
-		max: 60
-	content:
-		type: String
-		autoform:
-			rows: 5
-	createdAt:
-		type: Date
-		label: 'Date'
-		autoValue: ->
-			if this.isInsert
-				return new Date()
-	owner:
-		type: String
-		regEx: SimpleSchema.RegEx.Id
-		autoValue: ->
-			if this.isInsert
-				return Meteor.userId()
-		autoform:
-			options: ->
-				_.map Meteor.users.find().fetch(), (user)->
-					label: user.emails[0].address
-					value: user._id
+Schemas.Posts = new SimpleSchema({
+  title: {
+    type: String,
+    max: 60
+  },
+  content: {
+    type: String,
+    autoform: {
+      rows: 5
+    }
+  },
+  createdAt: {
+    type: Date,
+    label: 'Date',
+    autoValue: function() {
+      if (this.isInsert) {
+        return new Date();
+      }
+    }
+  },
+  owner: {
+    type: String,
+    regEx: SimpleSchema.RegEx.Id,
+    autoValue: function() {
+      if (this.isInsert) {
+        return Meteor.userId();
+      }
+    },
+    autoform: {
+      options: function() {
+        return _.map(Meteor.users.find().fetch(), function(user) {
+          return {
+            label: user.emails[0].address,
+            value: user._id
+          };
+        });
+      }
+    }
+  }
+});
 
-Posts.attachSchema(Schemas.Posts)
+Posts.attachSchema(Schemas.Posts);
 ```
 #### 4. Enjoy ####
 Go to `/admin`. If you are not made an admin, re-read step 2.
 
 ### Customization ###
 The admin dashboard is heavily customisable. Most of the possibilities are represented in the config option below.
-```
-@AdminConfig =
-    nonAdminRedirectRoute: 'entrySignIn',
-    collections:
-        Posts: {
-            icon: 'pencil'
-            tableColumns: [
-              {label: 'Title', name: 'title'}
-	            {label: 'Published', name: 'published'}
-	            {label: 'User', name: 'owner', template: 'userEmail'}
-            ]
-            templates:
-              new:
-                name: 'postWYSIGEditor'
-                data:
-                  post: Session.get 'admin_doc' if Meteor.isClient
-              edit:
-                name: 'postWYSIGEditor'
-                data:
-                  post: ()-> Session.get 'admin_doc' if Meteor.isClient
-            selector: (userId)->
-              return {ownerId: userId}
-        },
-        Comments: {
-            icon: 'comment'
-            omitFields: ['owner']
-            tableColumns: [
-              {label: 'Content', name: 'content'}
-              {label: 'Post', name: 'postTitle()'}
-              {label: 'User', name: 'owner', template: 'userEmail'}
-            ]
-            showWidget: false
+```javascript
+this.AdminConfig = {
+  nonAdminRedirectRoute: 'entrySignIn',
+  collections: {
+    Posts: {
+      icon: 'pencil',
+      omitFields: ['owner'],
+      tableColumns: [
+        {
+          label: 'Content',
+          name: 'content'
+        }, {
+          label: 'Post',
+          name: 'postTitle()'
+        }, {
+          label: 'User',
+          name: 'owner',
+          template: 'userEmail'
         }
-    autoForm:
-        omitFields: ['createdAt', 'updatedAt']
-    dashboard:
-        homeUrl: '/dashboard'
-        widgets: [
-          {
-            template: 'adminCollectionWidget'
-            data:
-              collection: 'Posts'
-              class: 'col-lg-3 col-xs-6'
-          }
-          {
-            template: 'adminUserWidget'
-            data:
-              class: 'col-lg-3 col-xs-6'
-          }
-        ]
+      ],
+      selector: function(userId) {
+        return {
+          ownerId: userId
+        };
+      }
+    },
+    Comments: {
+      icon: 'comment',
+      omitFields: ['owner'],
+      tableColumns: [
+        {
+          label: 'Content',
+          name: 'content'
+        }, {
+          label: 'Post',
+          name: 'postTitle()'
+        }, {
+          label: 'User',
+          name: 'owner',
+          template: 'userEmail'
+        }
+      ],
+      showWidget: false
+    }
+  },
+  autoForm: {
+    omitFields: ['createdAt', 'updatedAt']
+  },
+  dashboard: {
+    homeUrl: '/dashboard',
+    widgets: [
+      {
+        template: 'adminCollectionWidget',
+        data: {
+          collection: 'Posts',
+          "class": 'col-lg-3 col-xs-6'
+        }
+      }, {
+        template: 'adminUserWidget',
+        data: {
+          "class": 'col-lg-3 col-xs-6'
+        }
+      }
+    ]
+  }
+};
 
 Comments.helpers({
-  postTitle: function () {
+  postTitle: function() {
     if (this.post) {
       return Posts.findOne(this.post).title;
     }
   }
 });
-
-Posts.attachSchema(Schemas.Posts)
 ```
 
 #### Collections ####
@@ -175,16 +198,16 @@ AdminConfig = {
 It is possible to configure the way the collection is managed.
 ```
 Comments: {
-  icon: 'comment'
-  omitFields: ['updatedAt']
+  icon: 'comment',
+  omitFields: ['updatedAt'],
   tableColumns: [
    { label: 'Content', name: 'content' },
    { label: 'Post', name: 'postTitle()' },
    { label: 'User', name: 'owner', template: 'userEmail' }
-  ]
-  showEditColumn: true // Set to false to hide the edit button. True by default.
-  showDelColumn: true // Set to false to hide the edit button. True by default.
-  showWidget: false
+  ],
+  showEditColumn: true, // Set to false to hide the edit button. True by default.
+  showDelColumn: true, // Set to false to hide the delete button. True by default.
+  showWidget: false,
   color: 'red'
 }
 ```
@@ -441,6 +464,3 @@ AdminConfig = {
   logoutRedirect: 'login' // Redirect to the route named 'login' after logging out.
 }
 ```
-
-### Premium Support ###
-Have an urgent issue or want help with implementation? Start a conversation with [Meteor Factory](http://meteorfactory.io).
