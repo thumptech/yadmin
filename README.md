@@ -4,6 +4,8 @@ Meteor Admin
 
 A complete admin dashboard solution for meteor built off the [iron-router](https://github.com/iron-meteor/iron-router),  [roles](https://github.com/alanning/meteor-roles/) and [autoform](https://github.com/aldeed/meteor-autoform) packages and frontend from the open source admin dashboard template, [Admin LTE](https://github.com/almasaeed2010/AdminLTE).
 
+**Continuation of [yogiben:meteor-admin](https://atmospherejs.com/yogiben/admin) - thanks guys!**
+
 **Feedback Welcome.** Please create an issue.
 
 ![alt tag](https://raw.githubusercontent.com/yogiben/meteor-admin/master/readme/screenshot1.png)
@@ -12,7 +14,7 @@ A complete admin dashboard solution for meteor built off the [iron-router](https
 
 ### Getting started ###
 
-#### 0. Prerequisites####
+#### 0. Prerequisites ####
 This package is designed to work with certain types of projects. Your project should be using and have configured
 * Iron Router - `meteor add  iron:router`. Flow Router in progress...
 * Collection Helpers - `meteor add dburles:collection-helpers`
