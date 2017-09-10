@@ -18,11 +18,12 @@ A complete admin dashboard solution for meteor built off the [iron-router](https
 This package is designed to work with certain types of projects. Your project should be using and have configured
 * Iron Router - `meteor add  iron:router`. Flow Router in progress...
 * Collection Helpers - `meteor add dburles:collection-helpers`
-* Collection2 - `meteor add aldeed:collection2`
+* Collection2 - `meteor add aldeed:collection2-core`
 * An accounts system - e.g. `meteor add accounts-base accounts-password`
 * Roles - `meteor add alanning:roles`
 * Bootstrap 3 - e.g. `meteor add twbs:bootstrap`
 * Fontawesome - e.g. `meteor add fortawesome:fontawesome`
+* simpl-schema - e.g. `meteor npm install --save simpl-schema`
 
 #### 1. Install ####
 Download to your packages directory and run `meteor add ignacy130:yadmin`.
@@ -55,6 +56,9 @@ If you are unfamiliar with [autoform](https://github.com/aldeed/meteor-autoform)
 
 You need to define and attach a schema to the collections that you want to edit via the admin dashboard. Check out the [documentation](https://github.com/aldeed/meteor-collection2).
 ```javascript
+import SimpleSchema from 'simpl-schema';
+SimpleSchema.extendOptions(['autoform']);
+
 this.Schemas = {};
 
 this.Posts = new Meteor.Collection('posts');
