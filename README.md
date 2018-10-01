@@ -85,7 +85,8 @@ Schemas.Posts = new SimpleSchema({
   },
   owner: {
     type: String,
-    regEx: SimpleSchema.RegEx.Id,
+    //the latest definition for ids will not work with old ids
+            regEx: /^[\d\w]{17}$/
     autoValue: function() {
       if (this.isInsert) {
         return Meteor.userId();
