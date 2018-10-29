@@ -4,7 +4,7 @@
 			<ul class="sidebar-menu">
 				<li class="{{isActiveRoute 'adminDashboard'}}">
 					<a href="{{pathFor 'adminDashboard'}}">
-						<i class="fa fa-dashboard"></i> <span>Dashboard</span>
+						<i class="fas fa-columns"></i> <span>Dashboard</span>
 					</a>
 				</li>
 				{{#each admin_collections}}
@@ -13,7 +13,7 @@
 						<a href="#">
 							<i class="fa fa-{{this.icon}}"></i>
 							<span>{{this.label}}</span>
-							<i class="fa fa-angle-left pull-right"></i>
+                            <!--<div class="pull-right"><i class="fa fa-angle-left"></i></div>-->
 						</a>
 						<ul class="treeview-menu">
 							<li class="{{isActivePath path=newPath}}"><a href="{{newPath}}"><i class="fa fa-angle-double-right"></i> New</a></li>

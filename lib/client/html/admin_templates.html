@@ -156,11 +156,10 @@
 </template>
 
 <template name="adminEditBtn">
-	<a href="{{path}}" class="hidden-xs btn btn-xs btn-primary"><i class="fa fa-pencil"></i></a>
-	<a href="{{path}}" class="visible-xs btn btn-sm btn-primary"><i class="fa fa-pencil"></i> Edit</a>
+	<a href="{{path}}" class="btn btn-xs btn-primary"><i class="fas fa-pencil-alt"></i></a>
+
 </template>
 
 <template name="adminDeleteBtn">
-	<a data-toggle="modal" doc="{{_id}}" href='#admin-delete-modal' class="hidden-xs btn btn-xs btn-danger btn-delete"><i class="fa fa-times" doc="{{_id}}"></i></a>
-	<a data-toggle="modal" doc="{{_id}}" href='#admin-delete-modal' class="visible-xs btn btn-sm btn-danger btn-delete"><i class="fa fa-times" doc="{{_id}}"></i> Delete</a>
+	<a data-toggle="modal" doc="{{_id}}" href='#admin-delete-modal' class="btn btn-xs btn-danger btn-delete"><i class="fa fa-times" doc="{{_id}}"></i></a>
 </template>
