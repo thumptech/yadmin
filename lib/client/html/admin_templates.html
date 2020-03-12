@@ -67,6 +67,8 @@
 			{{> adminAlert}}
 			{{# autoForm id="adminNewUser" schema=AdminSchemas.newUser type="method" meteormethod="adminNewUser"}}
 
+            {{>afQuickField name="username"}}
+
 			{{>afQuickField name="email"}}
 			{{>afQuickField name="chooseOwnPassword"}}
 
@@ -94,11 +96,13 @@
 			{{/if}}
 
 			<h4>User Roles</h4>
+            <pre class="d-none">{{stringify roles}}</pre>
 			{{#each roles}}
 			<button class="btn btn-primary btn-xs btn-remove-role" role="{{this}}" user="{{admin_current_id}}">{{this}}</button>
 			{{/each}}
+            <pre class="d-none">{{stringify otherRoles}}</pre>
 			{{#each otherRoles}}
-			<button class="btn btn-default btn-xs btn-add-role" role="{{this}}" user="{{admin_current_id}}">{{this}}</button>
+			<button class="btn btn-secondary btn-xs btn-add-role" role="{{this}}" user="{{admin_current_id}}">{{this}}</button>
 			{{/each}}
 			{{#if roles}}
 			<p style="margin-top:5px;">Click a role to toggle it.</p>
@@ -109,7 +113,7 @@
 			<hr/>
 			<h4>Reset Password</h4>
 			{{#autoForm id="adminSendResetPasswordEmail" schema=AdminSchemas.sendResetPasswordEmail type="method" meteormethod="adminSendResetPasswordEmail"}}
-			<div class="form-group hidden">
+			<div class="form-group d-none">
 				<label class="control-label" for="title">ID</label>
 				<input value="{{admin_current_id}}" type="text" name="_id" omitfields="createdAtupdatedAt" required="" data-schema-key="_id" class="form-control" autocomplete="off" />
 				<span class="help-block"></span>
@@ -121,7 +125,7 @@
 			<hr/>
 			<h4>Change Password</h4>
 			{{#autoForm id="adminChangePassword" schema=AdminSchemas.changePassword type="method" meteormethod="adminChangePassword"}}
-			<div class="form-group hidden">
+			<div class="form-group d-none">
 				<label class="control-label" for="title">ID</label>
 				<input value="{{admin_current_id}}" type="text" name="_id" omitfields="createdAtupdatedAt" required="" data-schema-key="_id" class="form-control" autocomplete="off" />
 				<span class="help-block"></span>
@@ -152,7 +156,7 @@
 </template>
 
 <template name="adminUsersMailBtn">
-	<a href="mailto:{{adminUserEmail this}}" class="btn btn-default btn-xs"><i class="fa fa-envelope"></i></a>
+	<a href="mailto:{{adminUserEmail this}}" class="btn btn-primary btn-xs"><i class="fa fa-envelope"></i></a>
 </template>
 
 <template name="adminEditBtn">
